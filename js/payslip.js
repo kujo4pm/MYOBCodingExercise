@@ -8,7 +8,6 @@ The calculation details will be the following:
  pay = net income - super
 */
 
-
 // this data structure is expandable for more 
 // years
 var taxTable = [];//the index is the tax year ending
@@ -45,8 +44,11 @@ function getCurrentPayPeriod(date)
 
 }
 
-/* although obvious it's nice to have it explicitly
-** defined in the code
+/* 
+** Although obvious it's nice to have these functions explicitly
+** defined in the code so they relate closely to the spec. 
+** There is a very very slight cost in performance but the 
+** benefits come in readability of the code.
 */
 function getGrossIncome(annualSalary)
 {
@@ -79,9 +81,91 @@ function getNetIncome(year, annualSalary)
 }
 function getSuper(annualSalary, superRate)
 {
-	return getGrossIncome(annualSalary) * superRate;
+	return getGrossIncome(annualSalary) * superRate / 100;
 }
 function getPay(year, annualSalary, superRate)
 {
-	return getNetIncome(year, annualSalary) - getSuper(annualSalary - superRate);
+	return getNetIncome(year, annualSalary) - getSuper(annualSalary, superRate);
 }
+
+
+
+// some simple validation for the form
+
+function validation(submission)
+{	
+	var firstname = submission.firstname;
+	var lastname = submission.lastname;
+	var salary = submission.annualSalary;
+	var superRate = submission.superRate;
+	if(firstname == '' || !firstname 	||
+		lastname == '' || !lastname		||
+		salary ==	'' || 
+		superRate =='')
+	{
+		alert('Please fill out all fields');
+		return false;
+	}
+	if(salary < 0		|| superRate < 0	||
+		isNaN(salary)	|| isNaN(superRate))
+	{
+		alert('Annual Salary and Super Rate must be positive numbers');
+		return false;
+	}
+	if(superRate > 100)
+	{
+		alert('Cannot have super more than 100%');
+		return false;
+	}
+	return true;
+}
+var submission = {};
+
+$("#generate").on('click', function(event)
+	{
+		$('#emp-info-container').hide();
+		$('#results-info-container').show();
+		submission =
+		{
+			firstname : $("#emp-info").find('input#firstname').val(),
+			lastname : $("#emp-info").find('input#lastname').val(),
+			annualSalary : $("#emp-info").find('input#salary').val(),
+			superRate : $("#emp-info").find('input#super').val()
+		};
+		console.log(submission);
+		if(!validation(submission))
+			return false;
+		var year = 2016;
+		var results = 
+		{
+			firstname: submission.firstname,
+			lastname : submission.lastname,
+			date: $.now(),
+			frequency: 'Monthly',
+			annualIncome: submission.annualSalary,
+			grossIncome: getGrossIncome(submission.annualSalary),
+			incomeTax: getIncomeTax(year, submission.annualSalary),
+			netIncome: getNetIncome(year, submission.annualSalary),
+			super: getSuper(submission.annualSalary, submission.superRate),
+			pay: getPay(year, submission.annualSalary, submission.superRate)
+		};
+		populateConfirm(results);
+	});
+
+function populateConfirm(results)
+{
+	$('#resName')		.text(results.firstname + ' ' + results.lastname);
+	$('#resDate')		.text(results.date);
+	$('#resFrequency')	.text(results.frequency);
+	$('#resAnnIncome')	.text("$ " + accounting.formatNumber(results.annualIncome));
+	$('#resGrossIncome').text("$ " + accounting.formatNumber(results.grossIncome));
+	$('#resIncomeTax')	.text("$ " + accounting.formatNumber(results.incomeTax));
+	$('#resNetIncome')	.text("$ " + accounting.formatNumber(results.netIncome));
+	$('#resSuper')		.text("$ " + accounting.formatNumber(results.super));
+	$('#resPay')		.text("$ " + accounting.formatNumber(results.pay));
+}
+
+$("#pay-now").on('click', function(event)
+	{
+		$.post('http://localhost:3000', submission, function(){ alert("data sent!")}, 'json');
+	});

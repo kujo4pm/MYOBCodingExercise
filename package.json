@@ -1,0 +1,27 @@
+{
+  "name": "myob_coding_exercise",
+  "version": "1.0.0",
+  "description": "Kurt Johnson's Submission for the MYOB Coding challenge",
+  "main": "index.html",
+  "dependencies": {
+    "chai": "^3.5.0",
+    "jquery": "^3.1.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kujo4pm/MYOBCodingExercise.git"
+  },
+  "keywords": [
+    "myob"
+  ],
+  "author": "kurt johnson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kujo4pm/MYOBCodingExercise/issues"
+  },
+  "homepage": "https://github.com/kujo4pm/MYOBCodingExercise#readme"
+}
