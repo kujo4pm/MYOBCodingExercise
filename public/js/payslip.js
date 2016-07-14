@@ -167,5 +167,13 @@ function populateConfirm(results)
 
 $("#pay-now").on('click', function(event)
 	{
-		$.post('http://localhost:3000', submission, function(){ alert("data sent!")}, 'json');
-	});
+		//$.post('/payslips', JSON.stringify(submission), function(){ alert("data sent!")}, 'json');
+		$.ajax({
+		  type: "POST",
+		  url: '/payslips',
+		  data: JSON.stringify(submission),
+		  success: function(){ console.log("data sent!")},
+		  dataType: 'json',
+		  contentType: "application/json"
+		});
+}
