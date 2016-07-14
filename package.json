@@ -4,12 +4,16 @@
   "description": "Kurt Johnson's Submission for the MYOB Coding challenge",
   "main": "index.html",
   "dependencies": {
+    "body-parser": "^1.15.2",
     "chai": "^3.5.0",
-    "jquery": "^3.1.0"
+    "express": "^4.14.0",
+    "jquery": "^3.1.0",
+    "morgan": "^1.7.0"
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
@@ -23,5 +27,8 @@
   "bugs": {
     "url": "https://github.com/kujo4pm/MYOBCodingExercise/issues"
   },
-  "homepage": "https://github.com/kujo4pm/MYOBCodingExercise#readme"
+  "homepage": "https://github.com/kujo4pm/MYOBCodingExercise#readme",
+  "directories": {
+    "test": "test"
+  }
 }

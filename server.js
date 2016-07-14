@@ -14,13 +14,11 @@ var payslipRouter = express.Router();
 payslipRouter.use(bodyParser.json());
 
 payslipRouter.route('/')
-.all(function(req,res,next) {
-      res.writeHead(200, { 'Content-Type': 'text/plain' });
-      next();
-})
-
 .post(function(req, res, next){
     console.log(req.body);
+    res.setHeader('Content-Type', 'application/json');
+    res.send(JSON.stringify({ success: true,
+    							message: 'your payslip has been added' }));
     res.end('Received payslip from ' + req.body.firstname + ' ' + req.body.lastname );    
 })
 

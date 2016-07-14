@@ -122,35 +122,35 @@ function validation(submission)
 var submission = {};
 
 $("#generate").on('click', function(event)
+{
+	$('#emp-info-container').hide();
+	$('#results-info-container').show();
+	submission =
 	{
-		$('#emp-info-container').hide();
-		$('#results-info-container').show();
-		submission =
-		{
-			firstname : $("#emp-info").find('input#firstname').val(),
-			lastname : $("#emp-info").find('input#lastname').val(),
-			annualSalary : $("#emp-info").find('input#salary').val(),
-			superRate : $("#emp-info").find('input#super').val()
-		};
-		console.log(submission);
-		if(!validation(submission))
-			return false;
-		var year = 2016;
-		var results = 
-		{
-			firstname: submission.firstname,
-			lastname : submission.lastname,
-			date: $.now(),
-			frequency: 'Monthly',
-			annualIncome: submission.annualSalary,
-			grossIncome: getGrossIncome(submission.annualSalary),
-			incomeTax: getIncomeTax(year, submission.annualSalary),
-			netIncome: getNetIncome(year, submission.annualSalary),
-			super: getSuper(submission.annualSalary, submission.superRate),
-			pay: getPay(year, submission.annualSalary, submission.superRate)
-		};
-		populateConfirm(results);
-	});
+		firstname : $("#emp-info").find('input#firstname').val(),
+		lastname : $("#emp-info").find('input#lastname').val(),
+		annualSalary : $("#emp-info").find('input#salary').val(),
+		superRate : $("#emp-info").find('input#super').val()
+	};
+	console.log(submission);
+	if(!validation(submission))
+		return false;
+	var year = 2016;
+	var results = 
+	{
+		firstname: submission.firstname,
+		lastname : submission.lastname,
+		date: $.now(),
+		frequency: 'Monthly',
+		annualIncome: submission.annualSalary,
+		grossIncome: getGrossIncome(submission.annualSalary),
+		incomeTax: getIncomeTax(year, submission.annualSalary),
+		netIncome: getNetIncome(year, submission.annualSalary),
+		super: getSuper(submission.annualSalary, submission.superRate),
+		pay: getPay(year, submission.annualSalary, submission.superRate)
+	};
+	populateConfirm(results);
+});
 
 function populateConfirm(results)
 {
@@ -166,14 +166,16 @@ function populateConfirm(results)
 }
 
 $("#pay-now").on('click', function(event)
-	{
+{
 		//$.post('/payslips', JSON.stringify(submission), function(){ alert("data sent!")}, 'json');
 		$.ajax({
-		  type: "POST",
-		  url: '/payslips',
-		  data: JSON.stringify(submission),
-		  success: function(){ console.log("data sent!")},
-		  dataType: 'json',
-		  contentType: "application/json"
+			type: "POST",
+			url: '/payslips',
+			data: JSON.stringify(submission),
+			success: function (data) { 
+				console.log(data);
+			},
+			dataType: 'json',
+			contentType: 'application/json'
 		});
-}
+	});
