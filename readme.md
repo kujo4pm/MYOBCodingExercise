@@ -25,7 +25,7 @@ This is my (Kurt Johnson) submission for the MYOB code examination
 * This project has an external dependency for MongoDB. Download here and run it in the background: https://www.mongodb.com/download-center?jmp=nav#community. Run server on the default port of 27017 (should do this automatically). Did not have time to parameterize it.
 * If you do not have Node JS installed you need it. https://nodejs.org/en/download/
 * Enter the directory MYOBCodingExercise and type 'npm install'
-* 
+* Then type 'npm start'
 
 
 ## Tests
