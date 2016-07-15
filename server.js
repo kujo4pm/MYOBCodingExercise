@@ -38,7 +38,7 @@ payslipRouter.use(bodyParser.json());
 
 
 payslipRouter.route('/')
-.post(function(req, res, next){
+.put(function(req, res, next){
 	console.log(req.body);
 	Payslips.create(req.body, function(err, slip){
 		res.setHeader('Content-Type', 'application/json');

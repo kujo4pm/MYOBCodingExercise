@@ -91,7 +91,7 @@ function populateConfirm(results)
 $("#pay-now").on('click', function(event)
 {
 		$.ajax({
-			type: "POST",
+			type: "PUT",
 			url: '/payslips',
 			data: JSON.stringify(submission),
 			success: function (resp) { 
