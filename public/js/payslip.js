@@ -38,6 +38,12 @@ taxTable[2016] = [
 	offset: 54547
 }];	
 
+var monthNames = [
+  "January", "February", "March",
+  "April", "May", "June", "July",
+  "August", "September", "October",
+  "November", "December"
+];
 
 function getCurrentPayPeriod(date)
 {
@@ -125,12 +131,18 @@ $("#generate").on('click', function(event)
 {
 	$('#emp-info-container').hide();
 	$('#results-info-container').show();
+
+
+	// calculate the date at the moment the payslip is generated
+	var now = new Date(); 
+
 	submission =
 	{
 		firstname : $("#emp-info").find('input#firstname').val(),
 		lastname : $("#emp-info").find('input#lastname').val(),
 		annualSalary : $("#emp-info").find('input#salary').val(),
-		superRate : $("#emp-info").find('input#super').val()
+		superRate : $("#emp-info").find('input#super').val(),
+		yearMonth: now.getFullYear().toString() + now.getMonth().toString()
 	};
 	console.log(submission);
 	if(!validation(submission))
@@ -140,7 +152,7 @@ $("#generate").on('click', function(event)
 	{
 		firstname: submission.firstname,
 		lastname : submission.lastname,
-		date: $.now(),
+		date: now.getDate() + " " + monthNames[now.getMonth()] + " " + now.getFullYear(),
 		frequency: 'Monthly',
 		annualIncome: submission.annualSalary,
 		grossIncome: getGrossIncome(submission.annualSalary),
