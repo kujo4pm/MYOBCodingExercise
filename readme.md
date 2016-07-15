@@ -24,12 +24,13 @@ This is my (Kurt Johnson) submission for the MYOB code examination
 * Clone 
 * This project has an external dependency for MongoDB. Download here and run it in the background: https://www.mongodb.com/download-center?jmp=nav#community. Run server on the default port of 27017 (should do this automatically). Did not have time to parameterize it.
 * If you do not have Node JS installed you need it. https://nodejs.org/en/download/
+* Enter the directory MYOBCodingExercise and type 'npm install'
 * 
 
 
 ## Tests
-
-I used the testing framework Mocha. IMPORTANT: To successfully run the tests you need to have the server running in the background.
+IMPORTANT: To successfully run the tests you need to have the server running in the background.
+I used the testing framework Mocha. 
 
 ## License
 
