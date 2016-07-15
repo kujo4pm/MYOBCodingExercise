@@ -45,11 +45,6 @@ var monthNames = [
   "November", "December"
 ];
 
-function getCurrentPayPeriod(date)
-{
-
-}
-
 /* 
 ** Although obvious it's nice to have these functions explicitly
 ** defined in the code so they relate closely to the spec. 
@@ -179,13 +174,26 @@ function populateConfirm(results)
 
 $("#pay-now").on('click', function(event)
 {
-		//$.post('/payslips', JSON.stringify(submission), function(){ alert("data sent!")}, 'json');
 		$.ajax({
 			type: "POST",
 			url: '/payslips',
 			data: JSON.stringify(submission),
-			success: function (data) { 
-				console.log(data);
+			success: function (resp) { 
+				$('#results-info-container').hide();
+				$('#payslip-submit-results').show();
+				var result = function(resp)
+				{
+					if(resp.success)
+					{
+						return "Payslip submitted correctly!";
+					}
+					else
+					{
+						return "Error with payslip submission: " + resp.message + "<br><a href=\"/\"> Click here to retry</a>";
+					}
+				}
+				$('#submit-response-message').html(result(resp));
+				
 			},
 			dataType: 'json',
 			contentType: 'application/json'
