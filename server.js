@@ -36,23 +36,44 @@ var payslipRouter = express.Router();
 
 payslipRouter.use(bodyParser.json());
 
+
 payslipRouter.route('/')
 .post(function(req, res, next){
-    console.log(req.body);
-    Payslips.create(req.body, function(err, slip){
-    		if(err) throw err;
-	    	var id = slip._id;
-	    	res.setHeader('Content-Type', 'application/json');
-		    res.send(JSON.stringify({ success: true,
-		    message: 'your payslip has been added' }));
-		    res.end('Received payslip from ' + req.body.firstname + ' ' + req.body.lastname );    
-	    });
+	console.log(req.body);
+	Payslips.create(req.body, function(err, slip){
+		res.setHeader('Content-Type', 'application/json');
+		if(err)
+		{ 
+			if(err.code == 11000)
+			{
+				// we are here if there is a duplicate key
+				// that is - if the payslip has been submitted
+				res.end(JSON.stringify({ success: false,
+					message: 'Your payslip has already been lodged for this month.' }));
+			}
+			else
+			{
+				//otherwise forward the error on
+				var message = '';
+				for(var x in err.errors)
+					message += err.errors[x].message + '\n';
+				res.end(JSON.stringify({ success: false,
+					message: message }));
+			}
+		}
+		else
+		{
+			res.end(JSON.stringify({ success: true,
+				message: 'Your payslip has been successfully been lodged.' }));
+		}
+	});
 })
+
 
 app.use('/payslips', payslipRouter);
 
 app.use(express.static(__dirname + '/public'));
 
 app.listen(port, hostname, function(){
-  console.log(`Server running at http://${hostname}:${port}/`);
+	console.log(`Server running at http://${hostname}:${port}/`);
 });
